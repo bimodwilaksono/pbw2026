@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="My Todo List">
+  <title>My Todo List</title>
+  <!-- Bootstrap 5.3 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <main class="container my-5 py-4">
+    <div class="row bg-white rounded-4 shadow-lg overflow-hidden border-0 mx-0">
+
+      <!-- Left Column -->
+      <div class="col-lg-4 bg-primary text-white p-5 d-flex flex-column justify-content-center">
+        <div class="mb-5 text-center">
+          <i class="bi bi-check2-square display-3 opacity-75"></i>
+        </div>
+        <h2 class="fw-bold mb-3">To-Do List App</h2>
+        <p class="opacity-75 lh-lg">
+          Catat kegiatanmu dengan mudah, dan jangan pernah lupakan tugas penting!
+        </p>
+        <div class="mt-auto pt-5">
+          <div class="d-flex align-items-center opacity-75">
+            <small>Bimo Laksono - A18.2025.00201</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="col-lg-8 p-4 p-md-5 d-flex flex-column bg-white">
+
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h3 class="fw-bold text-dark mb-0">Kelola Tugas</h3>
+          <span id="taskCount" class="badge rounded-pill bg-primary px-3 py-2">0 Kegiatan</span>
+        </div>
+
+        <!-- Form Section -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4 bg-light">
+          <div class="card-body p-4">
+            <form id="todoListForm">
+              <div class="row g-3 align-items-center">
+                <div class="col-md-5">
+                  <div class="form-floating">
+                    <input type="text" class="form-control rounded-3 border-1 shadow-sm" id="namaKegiatan"
+                      placeholder="Nama Kegiatan" required>
+                    <label for="namaKegiatan" class="text-muted"><i class="bi bi-pencil me-2"></i>Nama Kegiatan</label>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-floating">
+                    <input type="date" class="date-picker form-control rounded-3 border-1 shadow-sm"
+                      id="tanggalKegiatan" placeholder="Tanggal" required>
+                    <label for="tanggalKegiatan" class="text-muted"><i
+                        class="bi bi-calendar-event me-2"></i>Tanggal</label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <button type="submit"
+                    class="btn btn-primary  fw-bold shadow-sm d-flex align-items-center justify-content-center">
+                    Tambah
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Table Section -->
+        <div class="flex-grow-1 overflow-auto">
+          <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+              <tr>
+                <th scope="col" class="border-0 rounded-start-3 ps-3">No</th>
+                <th scope="col" class="border-0">Nama Kegiatan</th>
+                <th scope="col" class="border-0">Tanggal</th>
+                <th scope="col" class="border-0 text-center">Status</th>
+                <th scope="col" class="border-0 rounded-end-3 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody class="todos-table-body border-top-0">
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div class="modal-header border-bottom-0 pt-4 px-4">
+            <h5 class="modal-title fw-bold" id="editModalLabel">Edit Kegiatan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form id="editTodoForm">
+            <div class="modal-body p-4">
+              <div class="form-floating mb-3">
+                <input type="text" class="form-control rounded-3 border-0 bg-light" id="editNamaKegiatan"
+                  placeholder="Nama Kegiatan" required>
+                <label for="editNamaKegiatan" class="text-muted"><i class="bi bi-pencil me-2"></i>Nama Kegiatan</label>
+              </div>
+              <div class="form-floating">
+                <input type="date" class="date-picker form-control rounded-3 border-0 bg-light" id="editTanggalKegiatan"
+                  placeholder="Tanggal" required>
+                <label for="editTanggalKegiatan" class="text-muted"><i
+                    class="bi bi-calendar-event me-2"></i>Tanggal</label>
+              </div>
+            </div>
+            <div class="modal-footer border-top-0 pb-4 px-4">
+              <button type="button" class="btn btn-light rounded-3 px-4" data-bs-dismiss="modal">Batal</button>
+              <button type="submit" class="btn btn-primary rounded-3 px-4 fw-bold">Simpan Perubahan</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+          <div class="modal-header border-bottom-0 pt-4 px-4 justify-content-center">
+            <div class="bg-danger bg-opacity-10 p-3 rounded-circle mb-2">
+              <i class="bi bi-exclamation-triangle text-danger fs-3"></i>
+            </div>
+          </div>
+          <div class="modal-body text-center px-4 pb-0">
+            <h5 class="fw-bold mb-2">Hapus Kegiatan?</h5>
+            <p class="text-muted small">Apakah Anda yakin untuk menghapus kegiatan ini?</p>
+          </div>
+          <div class="modal-footer border-top-0 p-4 pt-3 justify-content-center">
+            <button type="button" class="btn btn-light rounded-3 px-4 flex-grow-1"
+              data-bs-dismiss="modal">Batal</button>
+            <button type="button" id="confirmDeleteBtn"
+              class="btn btn-danger rounded-3 px-4 flex-grow-1 fw-bold">Hapus</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
